@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Inverse Matrix Computation and Storage
 
-## Write a short comment describing this function
+## Store the inverse matrices that have already been calculated
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  Iv <- NULL
+  set <- function(y) {
+    x <<- y
+    Iv <<- NULL
+  }
+  get <- function() x
+  setiv <- function(inverse) Iv <<- inverse
+  getiv <- function() Iv
+  list(set = set, get = get,
+       setiv = setiv,
+       getiv = getiv)
 }
 
 
-## Write a short comment describing this function
+## Calculate the inverse matrix of the newly-given matrix
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  Iv <- x$getiv()
+  if(!is.null(Iv)) {
+    message("getting cached data")
+    return(Iv)
+  }
+  data <- x$get()
+  Iv <- solve(data, ...)
+  x$setiv(Iv)
+  Iv
 }
